@@ -1,8 +1,10 @@
-# OpenNMS Kafka Producer Receiver
+# OpenNMS Kafka Producer Receiver [![Go Report Card](https://goreportcard.com/badge/github.com/agalue/producer-receiver)](https://goreportcard.com/report/github.com/agalue/producer-receiver)
 
 A sample Kafka Consumer application to display the producer payload in JSON format into standard output for troubleshooting purposes.
 
 This solution requires using the OpenNMS Kafka Producer. This feature can export events, alarms, metrics, nodes and edges from the OpenNMS database to Kafka. All the payloads are stored using Google Protobuf.
+
+It exposes Prometheus compatible metrics through port 8181, using the `/metrics` endpoint.
 
 This repository also contains a Dockerfile to compile and build an image with the tool, which can be fully customized through environment variables.
 
