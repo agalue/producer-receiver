@@ -4,7 +4,7 @@ A sample Kafka Consumer application to display the producer payload in JSON form
 
 This solution requires using the OpenNMS Kafka Producer. This feature can export events, alarms, metrics, nodes and edges from the OpenNMS database to Kafka. All the payloads are stored using Google Protobuf.
 
-This repository also contains a Dockerfile to compile and build an image with the tool, which can be fully customized through environment variables, so the solution can be used with Kubernetes (the sample YAML file is also available).
+This repository also contains a Dockerfile to compile and build an image with the tool, which can be fully customized through environment variables.
 
 The `protobuf` directory contains the GPB definitions extracted from OpenNMS source code contains. If any of those files change, make sure to re-generate the protobuf code by using the [build.sh](protobuf/build.sh) command, which expects to have `protoc` installed on your system.
 
