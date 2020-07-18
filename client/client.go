@@ -116,7 +116,7 @@ func (cli *KafkaClient) process(msg *kafka.Message, action ProcessMessage) {
 	}
 	_, err = cli.consumer.CommitMessage(msg) // If there are errors on the action, the message won't be reprocessed.
 	if err != nil {
-		log.Printf("error commiting message: %v", err)
+		log.Printf("error committing message: %v", err)
 	}
 }
 
