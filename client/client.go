@@ -103,8 +103,13 @@ func (cli *KafkaClient) process(msg *kafka.Message, action ProcessMessage) {
 	case MetricKind:
 		data = &producer.CollectionSet{}
 	}
+	if msg.Value == nil || len(msg.Value) == 0 {
+		log.Printf("empty %s message received with key %s", cli.MessageKind, msg.Key)
+		return
+	}
 	if err := proto.Unmarshal(msg.Value, data); err != nil {
 		log.Printf("invalid %s message received: %v", cli.MessageKind, err)
+		return
 	}
 	jsonBytes, err := json.MarshalIndent(data, "", "  ")
 	if err == nil {
