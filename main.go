@@ -36,7 +36,7 @@ func main() {
 		// TODO Implement your custom actions here //
 		/////////////////////////////////////////////
 		if showMsg {
-			log.Printf("message received with (key: '%s'): %s", string(msg), string(msg))
+			log.Printf("message received with (key: '%s'): %s", string(key), string(msg))
 		}
 	})
 
