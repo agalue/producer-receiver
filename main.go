@@ -15,12 +15,14 @@ import (
 )
 
 func main() {
+	var showMsg bool
 	cli := client.KafkaClient{}
 	flag.StringVar(&cli.Bootstrap, "bootstrap", "localhost:9092", "kafka bootstrap server")
 	flag.StringVar(&cli.Topic, "topic", "alarms", "kafka source topic with OpenNMS Producer GPB messages")
 	flag.StringVar(&cli.GroupID, "group-id", "producer-receiver", "kafka consumer group ID")
 	flag.StringVar(&cli.MessageKind, "message-kind", client.AlarmKind, "source topic message kind; valid options: "+strings.Join(client.ValidKinds, ", "))
 	flag.StringVar(&cli.Parameters, "parameters", "", "optional kafka consumer parameters as a CSV of Key-Value pairs")
+	flag.BoolVar(&showMsg, "show-msg", true, "show message content in JSON")
 	flag.Parse()
 
 	log.Println("starting consumer")
@@ -29,12 +31,13 @@ func main() {
 	}
 	log.Println("consumer started")
 
-	go cli.Start(func(msg []byte) {
+	go cli.Start(func(key []byte, msg []byte) {
 		/////////////////////////////////////////////
 		// TODO Implement your custom actions here //
 		/////////////////////////////////////////////
-
-		log.Printf("message received: %s", string(msg))
+		if showMsg {
+			log.Printf("message received with (key: '%s'): %s", string(msg), string(msg))
+		}
 	})
 
 	go func() {

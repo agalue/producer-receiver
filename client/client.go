@@ -33,7 +33,7 @@ const (
 var ValidKinds = []string{EventKind, AlarmKind, NodeKind, EdgeKind, MetricKind}
 
 // ProcessMessage defines the action to execute after successfully received a message.
-type ProcessMessage func(msg []byte)
+type ProcessMessage func(key []byte, msg []byte)
 
 // KafkaClient represents a simple Kafka consumer cli.
 type KafkaClient struct {
@@ -114,8 +114,8 @@ func (cli *KafkaClient) process(msg *kafka.Message, action ProcessMessage) {
 	jsonBytes, err := json.MarshalIndent(data, "", "  ")
 	if err == nil {
 		cli.msgProcessed.Inc()
-		log.Printf("message received with key '%v' on partition %d (offset %d)", msg.Key, msg.TopicPartition.Partition, msg.TopicPartition.Offset)
-		action(jsonBytes)
+		log.Printf("message received of %d bytes with key '%v' on partition %d (offset %d)", len(msg.Value), msg.Key, msg.TopicPartition.Partition, msg.TopicPartition.Offset)
+		action(msg.Key, jsonBytes)
 	} else {
 		log.Printf("cannot convert GPB to JSON: %v", err)
 	}
