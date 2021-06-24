@@ -10,10 +10,11 @@ import (
 	"strings"
 
 	"github.com/agalue/producer-receiver/protobuf/producer"
-	"github.com/golang/protobuf/proto"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
-	"gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
+
+	"google.golang.org/protobuf/proto"
 )
 
 const (
@@ -104,7 +105,7 @@ func (cli *KafkaClient) process(msg *kafka.Message, action ProcessMessage) {
 		data = &producer.CollectionSet{}
 	}
 	if msg.Value == nil || len(msg.Value) == 0 {
-		log.Printf("empty %s message received with key %s", cli.MessageKind, msg.Key)
+		log.Printf("empty %s message received with key %s", cli.MessageKind, string(msg.Key))
 		return
 	}
 	if err := proto.Unmarshal(msg.Value, data); err != nil {
@@ -114,7 +115,7 @@ func (cli *KafkaClient) process(msg *kafka.Message, action ProcessMessage) {
 	jsonBytes, err := json.MarshalIndent(data, "", "  ")
 	if err == nil {
 		cli.msgProcessed.Inc()
-		log.Printf("message received of %d bytes with key '%v' on partition %d (offset %d)", len(msg.Value), msg.Key, msg.TopicPartition.Partition, msg.TopicPartition.Offset)
+		log.Printf("message received of %d bytes with key '%s' on partition %d (offset %d)", len(msg.Value), string(msg.Key), msg.TopicPartition.Partition, msg.TopicPartition.Offset)
 		action(msg.Key, jsonBytes)
 	} else {
 		log.Printf("cannot convert GPB to JSON: %v", err)

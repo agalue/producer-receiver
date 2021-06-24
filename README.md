@@ -13,9 +13,9 @@ The `protobuf` directory contains the GPB definitions extracted from OpenNMS sou
 ## Requirements
 
 * `BOOTSTRAP_SERVERS` environment variable with Kafka Bootstrap Server (i.e. `kafka01:9092`)
-* `SOURCE_TOPIC` environment variable with the source Kafka Topic with GPB Payload
-* `GROUP_ID` environment variable with the Consumer Group ID (defaults to `opennms`)
-* `MESSAGE_KIND` environment variable with the payload type. Valid values are: alarm, event, node, metric, edge (defaults to `alarm`).
+* `SOURCE_TOPIC` environment variable with the source Kafka Topic with GPB Payload (defaults to `events`).
+* `GROUP_ID` environment variable with the Consumer Group ID (defaults to `producer-receiver`)
+* `MESSAGE_KIND` environment variable with the payload type. Valid values are: alarm, event, node, metric, edge (defaults to `event`).
 * To pass consumer settings, add an environment variable with the prefix `KAFKA_`, for example: `KAFKA_AUTO_OFFSET_RESET`.
 
 For consumer settings, the character underscore will be replaced with a dot and converted to lowercase. For example, `KAFKA_AUTO_OFFSET_RESET` will be configured as `auto.offset.reset`.

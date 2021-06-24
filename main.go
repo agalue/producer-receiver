@@ -18,9 +18,9 @@ func main() {
 	var showMsg bool
 	cli := client.KafkaClient{}
 	flag.StringVar(&cli.Bootstrap, "bootstrap", "localhost:9092", "kafka bootstrap server")
-	flag.StringVar(&cli.Topic, "topic", "alarms", "kafka source topic with OpenNMS Producer GPB messages")
+	flag.StringVar(&cli.Topic, "topic", "events", "kafka source topic with OpenNMS Producer GPB messages")
 	flag.StringVar(&cli.GroupID, "group-id", "producer-receiver", "kafka consumer group ID")
-	flag.StringVar(&cli.MessageKind, "message-kind", client.AlarmKind, "source topic message kind; valid options: "+strings.Join(client.ValidKinds, ", "))
+	flag.StringVar(&cli.MessageKind, "message-kind", client.EventKind, "source topic message kind; valid options: "+strings.Join(client.ValidKinds, ", "))
 	flag.StringVar(&cli.Parameters, "parameters", "", "optional kafka consumer parameters as a CSV of Key-Value pairs")
 	flag.BoolVar(&showMsg, "show-msg", true, "show message content in JSON")
 	flag.Parse()

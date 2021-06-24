@@ -2,7 +2,7 @@
 
 syntax = "proto3";
 
-option go_package = ".;producer";
+option go_package = "./producer";
 
 message StringAttribute {
   string name = 1;  

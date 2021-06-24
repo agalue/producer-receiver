@@ -3,7 +3,7 @@
 function join { local IFS="$1"; shift; echo "$*"; }
 
 IFS=$'\n'
-OPTIONS=("acks=1")
+OPTIONS=()
 for VAR in $(env)
 do
   env_var=$(echo "$VAR" | cut -d= -f1)
@@ -19,9 +19,9 @@ do
   fi
 done
 
-exec /producer-receiver \
+exec /bin/producer-receiver \
   -bootstrap "${BOOTSTRAP_SERVERS}" \
   -topic "${TOPIC-events}" \
-  -group-id "${GROUP_ID-producer-go-client}" \
+  -group-id "${GROUP_ID-producer-client}" \
   -message-kind "${MESSAGE_KIND-event}" \
   -parameters "$(join , ${OPTIONS[@]})" \
